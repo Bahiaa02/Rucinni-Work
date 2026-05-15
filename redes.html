@@ -11,115 +11,47 @@
 html,body{background:#000;color:#e0e0e0;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:#222}
-
 .navbar{
   position:fixed;top:0;left:0;right:0;z-index:9999;
   height:58px;background:rgba(0,0,0,0.97);
   border-bottom:1px solid rgba(255,255,255,0.06);
   display:flex;align-items:center;padding:0 20px;gap:14px;
 }
-.nb-ham{
-  flex-shrink:0;background:none;border:none;cursor:pointer;
-  display:flex;flex-direction:column;gap:5px;padding:4px;
-}
+.nb-ham{flex-shrink:0;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px}
 .nb-ham span{display:block;width:20px;height:1.5px;background:#ccc;border-radius:2px}
-.nb-logo{
-  flex-shrink:0;display:flex;align-items:center;
-  background:none;border:none;padding:0;text-decoration:none;
-}
+.nb-logo{flex-shrink:0;display:flex;align-items:center;background:none;border:none;padding:0;text-decoration:none}
 .nb-logo img{width:36px;height:36px;object-fit:contain;display:block}
 .nb-gap{flex:1}
 .nb-auth{display:flex;align-items:center;gap:0;flex-shrink:0}
-.nb-btn{
-  background:none;border:none;cursor:pointer;
-  color:rgba(255,255,255,0.65);font-family:'Inter',sans-serif;
-  font-size:0.8rem;white-space:nowrap;padding:8px 14px;transition:color .2s;
-}
+.nb-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.65);font-family:'Inter',sans-serif;font-size:0.8rem;white-space:nowrap;padding:8px 14px;transition:color .2s}
 .nb-btn:hover{color:#fff}
 .nb-sep{color:rgba(255,255,255,0.15);font-size:0.8rem;user-select:none}
-.nb-cart{
-  flex-shrink:0;background:none;border:none;cursor:pointer;
-  color:rgba(255,255,255,0.65);padding:8px 6px 8px 12px;
-  transition:color .2s;display:flex;align-items:center;position:relative;
-}
+.nb-cart{flex-shrink:0;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.65);padding:8px 6px 8px 12px;transition:color .2s;display:flex;align-items:center;position:relative}
 .nb-cart:hover{color:#fff}
-.nb-badge{
-  position:absolute;top:2px;right:0;background:#fff;color:#000;
-  font-size:0.55rem;font-weight:700;min-width:14px;height:14px;
-  border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 2px;
-}
-.drawer{
-  position:fixed;top:58px;left:0;bottom:0;width:240px;z-index:9997;
-  background:#080808;border-right:1px solid rgba(255,255,255,0.06);
-  padding:1.8rem 1.5rem;
-  transform:translateX(-100%);transition:transform .28s ease;
-}
+.nb-badge{position:absolute;top:2px;right:0;background:#fff;color:#000;font-size:0.55rem;font-weight:700;min-width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 2px}
+.drawer{position:fixed;top:58px;left:0;bottom:0;width:240px;z-index:9997;background:#080808;border-right:1px solid rgba(255,255,255,0.06);padding:1.8rem 1.5rem;transform:translateX(-100%);transition:transform .28s ease}
 .drawer.open{transform:translateX(0)}
-.drw-link{
-  display:block;border:none;border-bottom:1px solid rgba(255,255,255,0.05);
-  padding:13px 0;cursor:pointer;text-decoration:none;
-  font-family:'Cinzel',serif;font-size:0.67rem;
-  letter-spacing:3px;text-transform:uppercase;
-  color:rgba(255,255,255,0.4);transition:color .2s;
-  background:none;width:100%;text-align:left;
-}
+.drw-link{display:block;border:none;border-bottom:1px solid rgba(255,255,255,0.05);padding:13px 0;cursor:pointer;text-decoration:none;font-family:'Cinzel',serif;font-size:0.67rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);transition:color .2s;background:none;width:100%;text-align:left}
 .drw-link:hover{color:rgba(255,255,255,0.85)}
-
-/* MODALS */
-.ovl{
-  position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.87);
-  display:flex;align-items:center;justify-content:center;padding:1rem;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
+.ovl{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.87);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
 .ovl.on{opacity:1;pointer-events:all}
-.mod{
-  background:#0a0a0a;border:1px solid rgba(255,255,255,0.1);
-  width:100%;max-width:460px;padding:2.2rem;position:relative;
-  transform:translateY(14px);transition:transform .25s;
-}
+.mod{background:#0a0a0a;border:1px solid rgba(255,255,255,0.1);width:100%;max-width:460px;padding:2.2rem;position:relative;transform:translateY(14px);transition:transform .25s}
 .ovl.on .mod{transform:translateY(0)}
-.mod-x{
-  position:absolute;top:.9rem;right:1rem;background:none;border:none;
-  color:#555;font-size:.95rem;cursor:pointer;transition:color .2s;
-}
+.mod-x{position:absolute;top:.9rem;right:1rem;background:none;border:none;color:#555;font-size:.95rem;cursor:pointer;transition:color .2s}
 .mod-x:hover{color:#fff}
 .mod-t{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;margin-bottom:3px}
 .mod-s{font-size:0.7rem;color:#555;margin-bottom:1.6rem}
-.lopts{display:flex;flex-direction:column;gap:9px;margin-bottom:1.6rem}
-.lopt{
-  border:1px solid rgba(255,255,255,0.07);padding:.85rem 1rem;
-  cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.lopt:hover{border-color:#c4a35a;background:rgba(196,163,90,0.03)}
-.lopt.sel{border-color:#c4a35a;background:rgba(196,163,90,0.06)}
-.lopt h4{font-size:0.79rem;font-weight:600;margin-bottom:2px}
-.lopt p{font-size:0.65rem;color:#555}
-.lprice{font-family:'Cinzel',serif;font-size:0.9rem;color:#c4a35a;flex-shrink:0}
-.gbtn{
-  width:100%;background:#c4a35a;border:none;color:#000;
-  padding:12px;font-family:'Cinzel',serif;font-size:0.67rem;
-  letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .2s;
-}
-.gbtn:hover{background:#d9bb7a}
 .atabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:1.6rem}
-.atab{
-  flex:1;background:none;border:none;padding:10px;
-  font-family:'Cinzel',serif;font-size:0.64rem;letter-spacing:2px;text-transform:uppercase;
-  color:#555;cursor:pointer;transition:color .2s;
-  border-bottom:1px solid transparent;margin-bottom:-1px;
-}
+.atab{flex:1;background:none;border:none;padding:10px;font-family:'Cinzel',serif;font-size:0.64rem;letter-spacing:2px;text-transform:uppercase;color:#555;cursor:pointer;transition:color .2s;border-bottom:1px solid transparent;margin-bottom:-1px}
 .atab.on{color:#c4a35a;border-bottom-color:#c4a35a}
 .aform{display:flex;flex-direction:column;gap:9px}
-.aform input{
-  background:#111;border:1px solid rgba(255,255,255,0.07);
-  color:#e0e0e0;padding:10px 13px;
-  font-family:'Inter',sans-serif;font-size:0.81rem;outline:none;transition:border-color .2s;
-}
+.aform input{background:#111;border:1px solid rgba(255,255,255,0.07);color:#e0e0e0;padding:10px 13px;font-family:'Inter',sans-serif;font-size:0.81rem;outline:none;transition:border-color .2s}
 .aform input:focus{border-color:#c4a35a}
 .aform input::placeholder{color:#444}
 .asw{text-align:center;font-size:0.7rem;color:#555;margin-top:8px}
 .asw button{background:none;border:none;color:#c4a35a;cursor:pointer;font-size:0.7rem}
+.gbtn{width:100%;background:#c4a35a;border:none;color:#000;padding:12px;font-family:'Cinzel',serif;font-size:0.67rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.gbtn:hover{background:#d9bb7a}
 .citems{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05);margin-bottom:1.3rem}
 .crow{background:#0d0d0d;padding:.85rem 1rem;display:flex;align-items:center;gap:12px}
 .cinfo{flex:1}
@@ -134,28 +66,12 @@ html,body{background:#000;color:#e0e0e0;font-family:'Inter',sans-serif;min-heigh
 .cempty{text-align:center;padding:2.5rem 1rem;color:#444}
 .lwall{border:1px solid rgba(255,255,255,0.06);padding:1.8rem;text-align:center;margin-bottom:1.3rem}
 .lwall p{font-size:.78rem;color:#555;margin-bottom:1rem}
-.obtn{
-  background:none;border:1px solid #c4a35a;color:#c4a35a;
-  padding:7px 22px;font-family:'Cinzel',serif;font-size:0.64rem;
-  letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;
-}
+.obtn{background:none;border:1px solid #c4a35a;color:#c4a35a;padding:7px 22px;font-family:'Cinzel',serif;font-size:0.64rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .obtn:hover{background:#c4a35a;color:#000}
 .chat-wrap{position:fixed;bottom:24px;right:24px;z-index:8000}
-.chat-tog{
-  width:52px;height:52px;border-radius:50%;
-  background:#0d0d0d;border:1px solid rgba(255,255,255,0.1);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(0,0,0,0.6);position:relative;
-}
+.chat-tog{width:52px;height:52px;border-radius:50%;background:#0d0d0d;border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.6);position:relative}
 .chat-dot{position:absolute;top:1px;right:1px;width:9px;height:9px;background:#c4a35a;border-radius:50%}
-.chat-win{
-  position:absolute;bottom:62px;right:0;width:290px;
-  background:#0a0a0a;border:1px solid rgba(255,255,255,0.1);
-  display:flex;flex-direction:column;
-  opacity:0;pointer-events:none;
-  transform:scale(.93) translateY(6px);transform-origin:bottom right;
-  transition:all .22s;
-}
+.chat-win{position:absolute;bottom:62px;right:0;width:290px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:scale(.93) translateY(6px);transform-origin:bottom right;transition:all .22s}
 .chat-win.on{opacity:1;pointer-events:all;transform:scale(1) translateY(0)}
 .cwhead{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px}
 .cwav{width:32px;height:32px;flex-shrink:0;border:1px solid rgba(196,163,90,0.3);padding:3px;background:#000;display:flex;align-items:center;justify-content:center}
@@ -171,27 +87,50 @@ html,body{background:#000;color:#e0e0e0;font-family:'Inter',sans-serif;min-heigh
 .cwin input::placeholder{color:#444}
 .cwsnd{background:none;border:none;border-left:1px solid rgba(255,255,255,0.06);color:#c4a35a;cursor:pointer;padding:0 13px;font-size:.95rem}
 .cwsnd:hover{background:rgba(196,163,90,0.06)}
-.toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-  background:#0d0d0d;border:1px solid #c4a35a;color:#e0e0e0;
-  padding:8px 20px;font-size:0.76rem;z-index:20000;
-  opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;
-}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#0d0d0d;border:1px solid #c4a35a;color:#e0e0e0;padding:8px 20px;font-size:0.76rem;z-index:20000;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
 
-
+/* ── REDES PAGE ── */
 .inner{padding-top:58px;min-height:100vh}
 .ph{text-align:center;padding:3.5rem 2rem 2rem;border-bottom:1px solid rgba(255,255,255,0.06)}
 .ph h1{font-family:'Cinzel',serif;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:700;letter-spacing:5px;text-transform:uppercase;margin-bottom:6px}
 .ph p{font-size:0.66rem;letter-spacing:3px;text-transform:uppercase;color:#555}
-.sg{max-width:680px;margin:0 auto;padding:3rem 2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:rgba(255,255,255,0.05)}
-.sc{background:#000;padding:1.7rem;display:flex;flex-direction:column;gap:10px;transition:background .2s;cursor:pointer}
-.sc:hover{background:#060606}
-.sico{width:44px;height:44px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:border-color .2s}
-.sc:hover .sico{border-color:#c4a35a}
-.sname{font-family:'Cinzel',serif;font-size:0.9rem;font-weight:600}
-.shandle{font-size:0.73rem;color:#555}
-.scta{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:#c4a35a;margin-top:2px}
+
+.sg{
+  max-width:860px;margin:0 auto;
+  padding:3rem 2rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1px;background:rgba(255,255,255,0.05);
+}
+.sc{
+  background:#000;padding:2rem 1.8rem;
+  display:flex;flex-direction:column;gap:16px;
+  transition:background .25s;
+  text-decoration:none;color:inherit;
+  cursor:pointer;
+}
+.sc:hover{background:#0a0a0a}
+
+/* icon box com a cor original da rede, filtrada para dark */
+.sico{
+  width:52px;height:52px;
+  border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .25s;
+  flex-shrink:0;
+}
+.sc:hover .sico{border-color:rgba(255,255,255,0.25)}
+.sico svg{width:26px;height:26px;display:block}
+
+.sname{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:#e0e0e0}
+.shandle{font-size:0.75rem;color:#555}
+.scta{
+  font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);margin-top:auto;
+  display:flex;align-items:center;gap:6px;transition:color .2s;
+}
+.sc:hover .scta{color:rgba(255,255,255,0.7)}
 
 </style>
 </head>
@@ -229,31 +168,65 @@ html,body{background:#000;color:#e0e0e0;font-family:'Inter',sans-serif;min-heigh
 
 
 <div class="inner">
-  <div class="ph"><h1>Redes Sociais</h1><p>Conecte-se com Rucinni</p></div>
+  <div class="ph">
+    <h1>Redes Sociais</h1>
+    <p>Conecte-se com Rucinni</p>
+  </div>
+
   <div class="sg">
-    <div class="sc" onclick="toast('Abrindo Instagram...')"><div class="sico">📸</div><div class="sname">Instagram</div><div class="shandle">@rucinni</div><div class="scta">Seguir →</div></div>
-    <div class="sc" onclick="toast('Abrindo YouTube...')"><div class="sico">▶</div><div class="sname">YouTube</div><div class="shandle">Rucinni Beats</div><div class="scta">Inscrever-se →</div></div>
-    <div class="sc" onclick="toast('Abrindo SoundCloud...')"><div class="sico">☁</div><div class="sname">SoundCloud</div><div class="shandle">rucinni</div><div class="scta">Ouvir →</div></div>
-    <div class="sc" onclick="toast('Abrindo TikTok...')"><div class="sico">♪</div><div class="sname">TikTok</div><div class="shandle">@rucinni</div><div class="scta">Seguir →</div></div>
-    <div class="sc" onclick="toast('Abrindo Spotify...')"><div class="sico">◉</div><div class="sname">Spotify</div><div class="shandle">Rucinni</div><div class="scta">Ouvir →</div></div>
-    <div class="sc" onclick="toast('Abrindo X...')"><div class="sico">✦</div><div class="sname">Twitter / X</div><div class="shandle">@rucinni</div><div class="scta">Seguir →</div></div>
+
+    <!-- INSTAGRAM -->
+    <a class="sc" href="https://instagram.com/rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="rgba(255,255,255,0.7)" stroke="none"/></svg></div>
+      <div class="sname">Instagram</div>
+      <div class="shandle">@rucinni</div>
+      <div class="scta">Seguir <span>→</span></div>
+    </a>
+
+    <!-- YOUTUBE -->
+    <a class="sc" href="https://youtube.com/@rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" stroke="rgba(255,255,255,0.7)" fill="rgba(255,255,255,0.7)"/></svg></div>
+      <div class="sname">YouTube</div>
+      <div class="shandle">Rucinni Beats</div>
+      <div class="scta">Inscrever-se <span>→</span></div>
+    </a>
+
+    <!-- SOUNDCLOUD -->
+    <a class="sc" href="https://soundcloud.com/rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M1.175 12.225c-.015.12 0 .24.03.345l.96 4.44-.96 4.305c-.03.105-.045.225-.03.345.03.225.195.39.39.39s.345-.12.42-.33l1.095-4.71-1.095-4.785c-.075-.21-.225-.33-.42-.33s-.36.165-.39.33zm2.025-.81c-.015.135 0 .27.045.39l1.245 5.265-1.245 4.995c-.045.12-.045.255 0 .375.075.225.255.375.465.375.195 0 .375-.135.45-.345l1.41-5.4-1.41-5.46c-.075-.21-.255-.345-.45-.345-.21 0-.39.15-.465.375-.015.06-.045.12-.045.18zm2.07-.6c-.015.135 0 .285.06.42l1.53 5.85-1.53 5.64c-.06.135-.06.285 0 .42.09.225.285.375.51.375.21 0 .405-.135.495-.345l1.74-6.09-1.74-6.135c-.09-.21-.285-.345-.495-.345-.225 0-.42.15-.51.375-.015.06-.06.12-.06.18zm2.1-.315c-.015.15 0 .3.075.435l1.815 6.195-1.815 5.82c-.075.135-.075.3 0 .435.09.24.3.39.54.39.225 0 .42-.135.525-.36l2.07-6.285-2.07-6.33c-.105-.225-.3-.36-.525-.36-.24 0-.45.15-.54.39-.015.075-.075.135-.075.195zm2.13-.03c-.015.15 0 .315.09.45l2.1 6.225-2.1 5.85c-.09.15-.09.315 0 .465.105.24.315.39.555.39.225 0 .435-.135.54-.36l2.385-6.345-2.385-6.39c-.105-.225-.315-.36-.54-.36-.24 0-.45.15-.555.39-.015.075-.09.135-.09.195zm9.315 1.17c-.12-3.42-2.895-6.15-6.285-6.15-1.005 0-1.965.255-2.82.705-.315.165-.405.345-.42.51v12.225c.015.18.12.345.315.42.855.315 1.725.495 2.625.495h6.3c1.875 0 3.39-1.545 3.39-3.45 0-1.635-1.11-3.015-2.595-3.375-.015-.12-.015-.255-.015-.375l.015-.015z"/></svg></div>
+      <div class="sname">SoundCloud</div>
+      <div class="shandle">rucinni</div>
+      <div class="scta">Ouvir <span>→</span></div>
+    </a>
+
+    <!-- TIKTOK -->
+    <a class="sc" href="https://tiktok.com/@rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.78a4.85 4.85 0 0 1-1.01-.09z"/></svg></div>
+      <div class="sname">TikTok</div>
+      <div class="shandle">@rucinni</div>
+      <div class="scta">Seguir <span>→</span></div>
+    </a>
+
+    <!-- SPOTIFY -->
+    <a class="sc" href="https://open.spotify.com/artist/rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 0 1-.277-1.215c3.809-.87 7.077-.496 9.712 1.115.293.18.387.563.207.857zm1.223-2.722a.78.78 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 0 1-.973-.519.781.781 0 0 1 .519-.972c3.632-1.102 8.147-.568 11.234 1.328a.78.78 0 0 1 .257 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 0 1-.585-1.781c3.532-1.162 9.4-.937 13.106 1.333a.937.937 0 0 1-1.004 1.605z"/></svg></div>
+      <div class="sname">Spotify</div>
+      <div class="shandle">Rucinni</div>
+      <div class="scta">Ouvir <span>→</span></div>
+    </a>
+
+    <!-- X / TWITTER -->
+    <a class="sc" href="https://x.com/rucinni" target="_blank" rel="noopener">
+      <div class="sico"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+      <div class="sname">Twitter / X</div>
+      <div class="shandle">@rucinni</div>
+      <div class="scta">Seguir <span>→</span></div>
+    </a>
+
   </div>
 </div>
 
 
-<div class="ovl" id="ovlLic" onclick="if(event.target===this)closeLic()">
-  <div class="mod">
-    <button class="mod-x" onclick="closeLic()">✕</button>
-    <div class="mod-t" id="licName"></div>
-    <div class="mod-s">Escolha o tipo de licença</div>
-    <div class="lopts">
-      <div class="lopt" onclick="selLic(this,'Básica','29.90','R$29,90')"><div><h4>Licença Básica</h4><p>MP3 · até 10k streams · uso pessoal</p></div><div class="lprice">R$29,90</div></div>
-      <div class="lopt" onclick="selLic(this,'Premium','79.90','R$79,90')"><div><h4>Licença Premium</h4><p>WAV+MP3 · até 100k streams · comercial</p></div><div class="lprice">R$79,90</div></div>
-      <div class="lopt" onclick="selLic(this,'Exclusiva','299.90','R$299,90')"><div><h4>Licença Exclusiva</h4><p>WAV+Stems · ilimitado · direitos completos</p></div><div class="lprice">R$299,90</div></div>
-    </div>
-    <button class="gbtn" onclick="addCart()">Adicionar à Sacola</button>
-  </div>
-</div>
 <div class="ovl" id="ovlAuth" onclick="if(event.target===this)closeAuth()">
   <div class="mod" style="max-width:380px">
     <button class="mod-x" onclick="closeAuth()">✕</button>
@@ -348,7 +321,6 @@ function toast(msg){
   const t=document.getElementById('toastEl');t.textContent=msg;t.classList.add('on');
   setTimeout(()=>t.classList.remove('on'),2600);
 }
-
 
 </script>
 </body>
