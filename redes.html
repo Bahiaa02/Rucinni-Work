@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rucinni — Redes Sociais</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 
@@ -131,6 +132,338 @@ html,body{background:#000;color:#e0e0e0;font-family:'Inter',sans-serif;min-heigh
   display:flex;align-items:center;gap:6px;transition:color .2s;
 }
 .sc:hover .scta{color:rgba(255,255,255,0.7)}
+
+
+/* ═══════════════════════════════════════
+   PLAYER FIXO — RUCINNI
+═══════════════════════════════════════ */
+.player-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 5000;
+  height: 72px;
+  background: rgba(6,6,6,0.98);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  user-select: none;
+}
+
+/* TRACK INFO */
+.pb-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  flex-shrink: 0;
+  padding: 0 20px;
+  min-width: 0;
+}
+.pb-cover {
+  width: 44px; height: 44px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.pb-cover-vinyl {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: radial-gradient(circle, #222 30%, #111 70%);
+  animation: spin 4s linear infinite;
+  animation-play-state: paused;
+}
+.pb-cover-vinyl.playing { animation-play-state: running; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.pb-text { min-width: 0; flex: 1; }
+.pb-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem; font-weight: 600;
+  color: #e0e0e0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pb-playlist {
+  font-size: 0.62rem;
+  color: #c4a35a;
+  letter-spacing: 1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-top: 2px;
+}
+.pb-like {
+  background: none; border: none; cursor: pointer;
+  color: #444; font-size: 0.85rem; padding: 4px;
+  transition: color .2s; flex-shrink: 0;
+}
+.pb-like.liked { color: #c4a35a; }
+.pb-like:hover { color: #c4a35a; }
+
+/* CONTROLS CENTER */
+.pb-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 20px;
+  min-width: 0;
+}
+.pb-btns {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.pb-btn {
+  background: none; border: none; cursor: pointer;
+  color: #666; transition: color .2s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 4px;
+}
+.pb-btn:hover { color: #e0e0e0; }
+.pb-btn.active { color: #c4a35a; }
+.pb-play {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, background .2s;
+  flex-shrink: 0;
+}
+.pb-play:hover { transform: scale(1.06); background: #e8e8e8; }
+.pb-play svg { color: #000; }
+
+/* PROGRESS */
+.pb-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+.pb-time {
+  font-size: 0.6rem;
+  color: #555;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  width: 32px;
+}
+.pb-time.right { text-align: right; }
+.pb-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.pb-bar-fill {
+  height: 100%;
+  background: #fff;
+  border-radius: 2px;
+  width: 0%;
+  transition: width .1s linear;
+  pointer-events: none;
+}
+.pb-bar:hover .pb-bar-fill { background: #c4a35a; }
+
+/* VOLUME */
+.pb-right {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  justify-content: flex-end;
+}
+.pb-vol-icon {
+  background: none; border: none; cursor: pointer;
+  color: #666; transition: color .2s; padding: 4px;
+  flex-shrink: 0;
+}
+.pb-vol-icon:hover { color: #e0e0e0; }
+.pb-vol {
+  width: 80px; height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.pb-vol-fill {
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  width: 70%;
+  pointer-events: none;
+}
+.pb-playlist-btn {
+  background: none; border: none; cursor: pointer;
+  color: #666; transition: color .2s; padding: 4px;
+}
+.pb-playlist-btn:hover, .pb-playlist-btn.open { color: #c4a35a; }
+
+/* ── PLAYLIST DRAWER ── */
+.playlist-drawer {
+  position: fixed;
+  bottom: 72px; right: 0;
+  width: 340px;
+  max-height: 480px;
+  background: #080808;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-bottom: none;
+  z-index: 4999;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .3s ease;
+}
+.playlist-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.pl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.pl-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #e0e0e0;
+}
+.pl-playlist-name {
+  font-size: 0.62rem;
+  color: #c4a35a;
+  letter-spacing: 1px;
+}
+.pl-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pl-tabs::-webkit-scrollbar { display: none; }
+.pl-tab {
+  background: none; border: none;
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px;
+  padding: 8px 14px;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .2s;
+  font-family: 'Cinzel', serif;
+}
+.pl-tab:hover { color: #e0e0e0; }
+.pl-tab.on { color: #c4a35a; border-bottom-color: #c4a35a; }
+.pl-tracks {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+.pl-tracks::-webkit-scrollbar { width: 2px; }
+.pl-tracks::-webkit-scrollbar-thumb { background: #222; }
+.pl-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background .15s;
+  position: relative;
+}
+.pl-track:hover { background: rgba(255,255,255,0.03); }
+.pl-track.playing { background: rgba(196,163,90,0.06); }
+.pl-track.playing .pl-track-name { color: #c4a35a; }
+.pl-num {
+  font-size: 0.65rem;
+  color: #444;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.pl-track.playing .pl-num {
+  display: none;
+}
+.pl-eq {
+  display: none;
+  width: 16px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.pl-track.playing .pl-eq { display: flex; }
+.pl-eq-bar {
+  width: 3px;
+  background: #c4a35a;
+  border-radius: 1px;
+  animation: eq 0.8s ease infinite alternate;
+}
+.pl-eq-bar:nth-child(2) { animation-delay: 0.2s; }
+.pl-eq-bar:nth-child(3) { animation-delay: 0.4s; }
+@keyframes eq {
+  from { height: 4px; }
+  to { height: 12px; }
+}
+.pl-track-info { flex: 1; min-width: 0; }
+.pl-track-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pl-track-meta {
+  font-size: 0.62rem;
+  color: #444;
+  margin-top: 1px;
+}
+.pl-track-dur {
+  font-size: 0.65rem;
+  color: #444;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.pl-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #333;
+  font-size: 0.75rem;
+}
+
+/* body padding to not hide content behind player */
+body { padding-bottom: 72px; }
+
+@media (max-width: 640px) {
+  .pb-info { width: 160px; }
+  .pb-right { width: 60px; }
+  .pb-right .pb-vol-icon,
+  .pb-right .pb-vol { display: none; }
+  .pb-progress { max-width: 100%; }
+}
 
 </style>
 </head>
@@ -321,6 +654,350 @@ function toast(msg){
   const t=document.getElementById('toastEl');t.textContent=msg;t.classList.add('on');
   setTimeout(()=>t.classList.remove('on'),2600);
 }
+
+</script>
+<script>
+
+// ═══════════════════════════════════════
+// PLAYER — RUCINNI
+// ═══════════════════════════════════════
+(function() {
+
+const audio = document.getElementById('audioEl');
+let playlists = [];       // { id, name, tracks: [] }
+let currentPL = 0;        // index da playlist ativa
+let currentTrack = -1;    // index da faixa atual
+let isPlaying = false;
+let isShuffle = false;
+let repeatMode = 0;       // 0=off 1=all 2=one
+let isMuted = false;
+let volume = 0.7;
+let likedTracks = JSON.parse(localStorage.getItem('ru_liked') || '[]');
+let drawerOpen = false;
+
+audio.volume = volume;
+
+// ── Load playlists from Supabase ──────
+async function loadPlaylists() {
+  try {
+    const { createClient } = supabase;
+    const sb2 = createClient('https://dbccnfjtgrrnuqudcxyj.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiY2NuZmp0Z3JybnVxdWRjeHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NzUyNDEsImV4cCI6MjA5NDQ1MTI0MX0.13MV09Jp-YMGXx7gZHp9oNgY8U3SFDj_8kEPQaLocdw');
+    
+    const { data: pls } = await sb2
+      .from('playlists')
+      .select('*, playlist_tracks(order, beats(id, name, genre, bpm, key, file_url))')
+      .eq('active', true)
+      .order('order_num');
+
+    if (pls && pls.length) {
+      playlists = pls.map(pl => ({
+        id: pl.id,
+        name: pl.name,
+        tracks: (pl.playlist_tracks || [])
+          .sort((a,b) => a.order - b.order)
+          .map(pt => pt.beats)
+          .filter(Boolean)
+      }));
+    } else {
+      // Demo playlists when DB is empty
+      playlists = [
+        {
+          id: 'demo1',
+          name: 'Trap Season',
+          tracks: [
+            { id: 'd1', name: 'Shadow Protocol', genre: 'trap', bpm: 140, file_url: null },
+            { id: 'd2', name: 'Corvo Negro', genre: 'trap', bpm: 138, file_url: null },
+            { id: 'd3', name: 'Carpo 666', genre: 'phonk', bpm: 148, file_url: null },
+          ]
+        },
+        {
+          id: 'demo2',
+          name: 'Noite Fria',
+          tracks: [
+            { id: 'd4', name: 'Asfalto Frio', genre: 'drill', bpm: 142, file_url: null },
+            { id: 'd5', name: 'Rua de Ferro', genre: 'drill', bpm: 145, file_url: null },
+            { id: 'd6', name: 'Vício Imperial', genre: 'boom bap', bpm: 88, file_url: null },
+          ]
+        },
+        {
+          id: 'demo3', 
+          name: 'Verão',
+          tracks: [
+            { id: 'd7', name: 'Caju Flow', genre: 'reggae', bpm: 80, file_url: null },
+            { id: 'd8', name: 'Maré Alta', genre: 'reggae', bpm: 75, file_url: null },
+            { id: 'd9', name: 'Volta Pra Casa', genre: 'boom bap', bpm: 90, file_url: null },
+          ]
+        }
+      ];
+    }
+  } catch(e) {
+    playlists = [
+      {
+        id: 'demo1', name: 'Trap Season',
+        tracks: [
+          { id: 'd1', name: 'Shadow Protocol', genre: 'trap', bpm: 140, file_url: null },
+          { id: 'd2', name: 'Corvo Negro', genre: 'trap', bpm: 138, file_url: null },
+        ]
+      }
+    ];
+  }
+  renderTabs();
+  selectPlaylist(0);
+}
+
+// ── Render tabs ───────────────────────
+function renderTabs() {
+  const tabs = document.getElementById('plTabs');
+  tabs.innerHTML = playlists.map((pl, i) =>
+    `<button class="pl-tab${i===currentPL?' on':''}" onclick="selectPlaylist(${i})">${pl.name}</button>`
+  ).join('');
+}
+
+// ── Select playlist ───────────────────
+window.selectPlaylist = function(idx) {
+  currentPL = idx;
+  renderTabs();
+  renderTracks();
+  document.getElementById('plCurrentName').textContent = playlists[idx]?.name || '';
+  document.getElementById('pbPlaylistName').textContent = playlists[idx]?.name || '';
+}
+
+// ── Render tracks ─────────────────────
+function renderTracks() {
+  const pl = playlists[currentPL];
+  const container = document.getElementById('plTracks');
+  if (!pl || !pl.tracks.length) {
+    container.innerHTML = '<div class="pl-empty">Nenhuma faixa nesta playlist</div>';
+    return;
+  }
+  container.innerHTML = pl.tracks.map((t, i) => {
+    const isActive = (currentPL === currentPL && currentTrack === i);
+    return `<div class="pl-track${isActive?' playing':''}" onclick="playTrack(${i})">
+      <span class="pl-num">${i+1}</span>
+      <div class="pl-eq">
+        <div class="pl-eq-bar" style="height:${isActive&&isPlaying?'12px':'4px'}"></div>
+        <div class="pl-eq-bar" style="height:${isActive&&isPlaying?'8px':'4px'}"></div>
+        <div class="pl-eq-bar" style="height:${isActive&&isPlaying?'14px':'4px'}"></div>
+      </div>
+      <div class="pl-track-info">
+        <div class="pl-track-name">${t.name}</div>
+        <div class="pl-track-meta">${t.bpm} BPM · ${t.genre}</div>
+      </div>
+      <div class="pl-track-dur">—:——</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Play track ────────────────────────
+window.playTrack = function(idx) {
+  const pl = playlists[currentPL];
+  if (!pl || !pl.tracks[idx]) return;
+  
+  currentTrack = idx;
+  const track = pl.tracks[idx];
+  
+  // Update UI
+  document.getElementById('pbTitle').textContent = track.name;
+  document.getElementById('pbPlaylistName').textContent = pl.name;
+  document.getElementById('plCurrentName').textContent = pl.name;
+  
+  // Update like button
+  const likeBtn = document.getElementById('pbLike');
+  likeBtn.textContent = likedTracks.includes(track.id) ? '♥' : '♡';
+  likeBtn.className = 'pb-like' + (likedTracks.includes(track.id) ? ' liked' : '');
+  
+  // Load audio
+  if (track.file_url) {
+    audio.src = track.file_url;
+    audio.play().then(() => { isPlaying = true; updatePlayUI(); }).catch(() => {
+      // Demo mode - no audio file
+      isPlaying = true; updatePlayUI();
+      simulateProgress();
+    });
+  } else {
+    // Demo mode - simulate playback
+    isPlaying = true;
+    updatePlayUI();
+    simulateProgress();
+  }
+  
+  renderTracks();
+}
+
+// Demo mode progress simulation
+let simTimer = null;
+let simProgress = 0;
+let simDuration = 180; // 3 min demo
+
+function simulateProgress() {
+  clearInterval(simTimer);
+  simProgress = 0;
+  simDuration = 160 + Math.random() * 60;
+  simTimer = setInterval(() => {
+    if (!isPlaying) return;
+    simProgress += 0.5;
+    if (simProgress >= simDuration) {
+      clearInterval(simTimer);
+      onTrackEnd();
+      return;
+    }
+    updateProgress(simProgress, simDuration);
+  }, 500);
+}
+
+function onTrackEnd() {
+  if (repeatMode === 2) {
+    playTrack(currentTrack);
+  } else {
+    nextTrack();
+  }
+}
+
+// ── Controls ──────────────────────────
+window.togglePlay = function() {
+  if (currentTrack === -1) {
+    if (playlists[currentPL]?.tracks.length) playTrack(0);
+    return;
+  }
+  isPlaying = !isPlaying;
+  if (audio.src && audio.readyState > 0) {
+    isPlaying ? audio.play() : audio.pause();
+  } else {
+    if (isPlaying) simulateProgress(); else clearInterval(simTimer);
+  }
+  updatePlayUI();
+  renderTracks();
+}
+
+window.nextTrack = function() {
+  const pl = playlists[currentPL];
+  if (!pl || !pl.tracks.length) return;
+  let next;
+  if (isShuffle) {
+    next = Math.floor(Math.random() * pl.tracks.length);
+  } else {
+    next = (currentTrack + 1) % pl.tracks.length;
+    if (next === 0 && repeatMode === 0) { isPlaying = false; updatePlayUI(); return; }
+  }
+  playTrack(next);
+}
+
+window.prevTrack = function() {
+  const pl = playlists[currentPL];
+  if (!pl) return;
+  if (audio.currentTime > 3 || simProgress > 3) {
+    audio.currentTime = 0; simProgress = 0; return;
+  }
+  playTrack((currentTrack - 1 + pl.tracks.length) % pl.tracks.length);
+}
+
+window.toggleShuffle = function() {
+  isShuffle = !isShuffle;
+  document.getElementById('pbShuffle').classList.toggle('active', isShuffle);
+}
+
+window.toggleRepeat = function() {
+  repeatMode = (repeatMode + 1) % 3;
+  const btn = document.getElementById('pbRepeat');
+  btn.classList.toggle('active', repeatMode > 0);
+  btn.style.color = repeatMode === 2 ? '#c4a35a' : '';
+}
+
+window.toggleLike = function() {
+  const pl = playlists[currentPL];
+  if (currentTrack === -1 || !pl) return;
+  const id = pl.tracks[currentTrack]?.id;
+  if (!id) return;
+  const idx = likedTracks.indexOf(id);
+  if (idx >= 0) likedTracks.splice(idx, 1);
+  else likedTracks.push(id);
+  localStorage.setItem('ru_liked', JSON.stringify(likedTracks));
+  const btn = document.getElementById('pbLike');
+  btn.textContent = likedTracks.includes(id) ? '♥' : '♡';
+  btn.className = 'pb-like' + (likedTracks.includes(id) ? ' liked' : '');
+}
+
+// ── Progress bar ──────────────────────
+window.seekTo = function(e) {
+  const bar = document.getElementById('pbBar');
+  const pct = e.offsetX / bar.offsetWidth;
+  const dur = audio.duration || simDuration;
+  if (audio.src && audio.readyState > 0) {
+    audio.currentTime = pct * dur;
+  } else {
+    simProgress = pct * simDuration;
+  }
+}
+
+function updateProgress(cur, dur) {
+  document.getElementById('pbFill').style.width = (cur/dur*100) + '%';
+  document.getElementById('pbCurrent').textContent = fmt(cur);
+  document.getElementById('pbDuration').textContent = fmt(dur);
+}
+
+function fmt(s) {
+  s = Math.floor(s);
+  return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+}
+
+// ── Volume ────────────────────────────
+window.setVolume = function(e) {
+  const bar = document.getElementById('pbVol');
+  volume = Math.max(0, Math.min(1, e.offsetX / bar.offsetWidth));
+  audio.volume = volume;
+  document.getElementById('pbVolFill').style.width = (volume*100)+'%';
+  isMuted = volume === 0;
+  updateVolIcon();
+}
+
+window.toggleMute = function() {
+  isMuted = !isMuted;
+  audio.muted = isMuted;
+  updateVolIcon();
+}
+
+function updateVolIcon() {
+  const icon = document.getElementById('pbVolIcon');
+  if (isMuted || volume === 0) {
+    icon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.8"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.8"/>`;
+  } else {
+    icon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>`;
+  }
+}
+
+// ── Playlist drawer ───────────────────
+window.togglePlaylistDrawer = function() {
+  drawerOpen = !drawerOpen;
+  document.getElementById('playlistDrawer').classList.toggle('open', drawerOpen);
+  document.getElementById('pbPlBtn').classList.toggle('open', drawerOpen);
+}
+
+// ── UI update ─────────────────────────
+function updatePlayUI() {
+  const icon = document.getElementById('pbPlayIcon');
+  const vinyl = document.getElementById('pbVinyl');
+  if (isPlaying) {
+    icon.innerHTML = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+    vinyl.classList.add('playing');
+  } else {
+    icon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"/>`;
+    vinyl.classList.remove('playing');
+  }
+}
+
+// ── Audio events ──────────────────────
+audio.addEventListener('timeupdate', () => {
+  updateProgress(audio.currentTime, audio.duration || 0);
+});
+audio.addEventListener('ended', onTrackEnd);
+audio.addEventListener('loadedmetadata', () => {
+  document.getElementById('pbDuration').textContent = fmt(audio.duration);
+});
+
+// ── Init ──────────────────────────────
+loadPlaylists();
+
+})();
 
 </script>
 </body>
