@@ -229,13 +229,13 @@ async function loadProjects(){
   try {
     if(!sb) throw new Error('no sb');
     var r=await sb.from('playlists')
-      .select('*, playlist_tracks(order, beats(id,name,genre,bpm,key,price_basic,price_premium,price_exclusive,available,cover_url))')
+      .select('*, playlist_tracks(order, beats(id,name,genre,bpm,key,price_basic,price_premium,price_exclusive,available,cover_url,file_url))')
       .eq('active',true).order('order_num');
     if(!r.error&&r.data&&r.data.length){
       allProjects=r.data.map(function(pl){
-        return {id:pl.id,name:pl.name,cover:pl.cover_url||null,
+        return {id:pl.id,name:pl.name,cover:pl[cover_url]||null,
           tracks:(pl.playlist_tracks||[]).sort(function(a,b){return a.order-b.order;})
-            .map(function(pt){return pt.beats;}).filter(function(b){return b&&b.available;})};
+            .map(function(pt){return pt.beats;}).filter(function(b){return b&&b[available];})};
       });
     } else { allProjects=[]; }
   } catch(e){ allProjects=[]; }
@@ -248,7 +248,7 @@ async function loadProjects(){
     var card=mk('div','pc');
     card.onclick=(function(id){return function(){openProject(id);};})(p.id);
     var cov=mk('div','pc-cov');
-    if(p.cover){var img=document.createElement('img');img.src=p.cover;img.alt=p.name;cov.appendChild(img);}
+    if(p[cover_url]){var img=document.createElement('img');img.src=p[cover_url];img.alt=p.name;cov.appendChild(img);}
     else{var ph2=mk('div','pc-ph');ph2.appendChild(mk('span',null,null,p.name.charAt(0)));cov.appendChild(ph2);}
     var play=mk('div','pc-play');
     play.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
@@ -269,12 +269,12 @@ function openProject(id){
   var n=proj.tracks.length;
   document.getElementById('dvSub').textContent=n+' faixa'+(n!==1?'s':'')+' · Rucinni';
   var cov=document.getElementById('dvCov'); empty(cov);
-  if(proj.cover){var img=document.createElement('img');img.src=proj.cover;img.alt=proj.name;cov.appendChild(img);}
+  if(proj[cover_url]||proj.cover){var img=document.createElement('img');img.src=proj[cover_url]||proj.cover;img.alt=proj.name;cov.appendChild(img);}
   else{var ph=mk('div','dv-ph');ph.appendChild(mk('span',null,null,proj.name.charAt(0)));cov.appendChild(ph);}
   var list=document.getElementById('tracksList'); empty(list);
   if(!proj.tracks.length){list.appendChild(mk('div',null,'padding:2rem;text-align:center;color:#555;font-size:.82rem','Nenhuma faixa ainda.'));return;}
   proj.tracks.forEach(function(t,i){
-    var pB=parseFloat(t.price_basic||29.90),pP=parseFloat(t.price_premium||79.90),pE=parseFloat(t.price_exclusive||299.90);
+    var pB=parseFloat(t[price_basic]||29.90),pP=parseFloat(t[price_premium]||79.90),pE=parseFloat(t[price_exclusive]||299.90);
     var row=mk('div','tr');
     row.onclick=(function(beat){return function(){openLic(beat.id,beat.name,beat.pB,beat.pP,beat.pE);};})(
       {id:t.id,name:t.name,pB:pB,pP:pP,pE:pE});
@@ -283,7 +283,7 @@ function openProject(id){
     pi.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
     var info=mk('div','tr-info');
     info.appendChild(mk('div','tr-name',null,t.name));
-    info.appendChild(mk('div','tr-meta',null,t.bpm+' BPM · '+t.key+' · '+t.genre));
+    info.appendChild(mk('div','tr-meta',null,t.bpm+' BPM · '+t.key+' · '+t[genre]));
     var price=mk('div','tr-price',null,'R$'+pB.toFixed(2).replace('.',','));
     row.appendChild(num);row.appendChild(pi);row.appendChild(info);row.appendChild(price);
     list.appendChild(row);
