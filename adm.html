@@ -273,7 +273,16 @@ function sendMsg() {
   }, 700);
 }
 
-window.addEventListener('load', initAuth);
+window.addEventListener('load', async function(){
+  await initAuth();
+  // Se já está logado como ADM, mostra painel direto
+  if(currentUser && currentUser.email === ADM_EMAIL){
+    document.getElementById('admLoginBox').style.display='none';
+    document.getElementById('admContent').style.display='block';
+    showAdmPanel('dashboard');
+    loadDashboard();
+  }
+});
 
 
 var ADM_EMAIL='rucinni.adm@gmail.com';
@@ -282,7 +291,12 @@ async function admLogin(){
   if(email!==ADM_EMAIL){toast('Acesso negado');return;}
   if(!sb){toast('Sem conexão');return;}
   var r=await sb.auth.signInWithPassword({email:email,password:pass});
-  if(r.error){toast('Senha incorreta');return;}
+  if(r.error){
+    console.error('ADM login error:', r.error);
+    toast('Erro: '+r.error.message);
+    return;
+  }
+  currentUser=r.data.user;
   document.getElementById('admLoginBox').style.display='none';
   document.getElementById('admContent').style.display='block';
   showAdmPanel('dashboard');loadDashboard();
